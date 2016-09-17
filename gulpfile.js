@@ -21,7 +21,7 @@ gulp.task('styles', () => {
     .pipe(gulp.dest('./static/styles'));
 });
 
-gulp.task('watch', () => {
+gulp.task('watch', ['default'], () => {
     gulp.watch('./assets/scripts/**/*.js', ['scripts']);
     gulp.watch('./assets/styles/**/*.less', ['styles']);
 });

@@ -36,21 +36,16 @@ app.get('/', (req, res, next) => {
 });
 
 app.post('/execute', (req, res, next) => {
-    var code = [
-        '#include <iostream>',
-        'int main() {',
-        req.body.code,
-        '}'
-    ].join('\n');
+    logger.debug({code: req.body.code}, 'Executing code.');
 
-    fs.writeFileAsync('test.cpp', code)
+    fs.writeFileAsync('test.cpp', req.body.code)
         .then(() => cp.execAsync('g++ test.cpp'))
         .then(() => cp.execAsync('./a.out'))
         .then(
-            (output) => res.send(output.toString()),
+            (output) => res.json({run: output.toString()}),
             (err) => {
                 logger.error({error: err}, 'Failed to execute file.');
-                res.status(400).send('Failed to compile code.');
+                res.status(400).json({compile: err});
             }
         );
 });
