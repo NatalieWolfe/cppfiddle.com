@@ -1,0 +1,36 @@
+{
+  "name": "cppfiddle",
+  "version": "0.0.0",
+  "description": "A website for fiddling with C++",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NatalieWolfe/cppfiddle.com.git"
+  },
+  "author": "Natalie Wolfe <natalie@lifewanted.com>",
+  "license": "MIT",
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/NatalieWolfe/cppfiddle.com/issues"
+  },
+  "homepage": "https://github.com/NatalieWolfe/cppfiddle.com#readme",
+  "dependencies": {
+    "bluebird": "^3.4.6",
+    "body-parser": "^1.15.2",
+    "bunyan": "^1.8.1",
+    "express": "^4.14.0",
+    "newrelic": "^1.30.3",
+    "pug": "^2.0.0-beta6",
+    "qs": "^6.2.1"
+  },
+  "devDependencies": {
+    "coveralls": "^2.11.13",
+    "eslint": "^3.5.0",
+    "jscoverage": "^0.6.0",
+    "tap": "^7.1.2"
+  }
+}
