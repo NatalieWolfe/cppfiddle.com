@@ -1,9 +1,10 @@
 html
     head
+        title C++ Fiddle
+        // script(src="/assets/scripts/react.min.js")
+        // script(src="/assets/scripts/react-dom.min.js")
+        script(src="/assets/scripts/editor.js", async)
     body
         p Hello World!
-        form(method='post', action='/execute')
-            div
-                textarea(name='code', cols="90", rows="10")
-            div
-                button(type='submit') Execute!
+
+        div#content

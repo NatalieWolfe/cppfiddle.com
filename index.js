@@ -25,6 +25,8 @@ app.use((req, res, next) => {
     logger.debug({path: req.path, ip: req.ip}, 'Request received.');
     next();
 });
+
+app.use('/assets', express.static(path.resolve(__dirname, './static')));
 app.use(bodyParser.urlencoded({extended: true}));
 
 
