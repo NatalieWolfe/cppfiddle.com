@@ -2,6 +2,7 @@
 
 var $ = require('jquery');
 var debounce = require('throttle-debounce/debounce');
+var Promise = require('bluebird');
 var React = require('react');
 var ReactAce = require('react-ace').default;
 
@@ -21,8 +22,33 @@ const DEFAULT_TEXT = [
     ''
 ].join('\n');
 
-var ResultsBox = React.createClass({
-    render: function() {
+
+var execute = debounce(CHANGE_DEBOUNCE_MS, (code, cb) => {
+    $.ajax({
+        method: 'post',
+        url: '/execute',
+        dataType: 'json',
+        cache: false,
+        data: {code: code},
+        success: (data) => {
+            cb(null, {
+                code: code,
+                runResults: data.run || '',
+                compileResults: data.compile || ''
+            });
+        },
+        error: (err) => {
+            cb(null, {
+                code: code,
+                runResults: '',
+                compileResults: err
+            });
+        }
+    });
+});
+
+class ResultsBox extends React.Component {
+    render() {
         return (
             <div className="resultsBox">
                 <div>{this.props.compileResults}</div>
@@ -31,28 +57,24 @@ var ResultsBox = React.createClass({
             </div>
         );
     }
-});
+}
 
-var EditorBox = React.createClass({
-    getInitialState: () => ({code: DEFAULT_TEXT, runResults: '', compileResults: ''}),
 
-    onEditorChange: debounce(CHANGE_DEBOUNCE_MS, function(code) {
-        $.ajax({
-            method: 'post',
-            url: '/execute',
-            dataType: 'json',
-            cache: false,
-            data: {code: code},
-            success: (data) => {
-                this.setState({code: code, runResults: data.run, compileResults: data.compile});
-            },
-            error: (err) => {
-                this.setState({code: code, runResults: '', compileResults: err});
-            }
-        });
-    }),
+class EditorBox extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {code: DEFAULT_TEXT, runResults: '', compileResults: ''};
+    }
 
-    render: function() {
+    onEditorChange(code) {
+        execute(code, (err, data) => this.setState(data));
+    }
+
+    onEditorLoad() {
+        this.onEditorChange(DEFAULT_TEXT);
+    }
+
+    render() {
         return (
             <div className="editorBox panelist">
                 <div className="panel-75">
@@ -61,8 +83,8 @@ var EditorBox = React.createClass({
                         theme="ambiance"
                         width="100%"
                         height="100%"
-                        onLoad={this.onEditorChange}
-                        onChange={this.onEditorChange}
+                        onLoad={() => this.onEditorChange(DEFAULT_TEXT)}
+                        onChange={(code) => this.onEditorChange(code)}
                         value={this.state.code}
                     />
                 </div>
@@ -72,6 +94,6 @@ var EditorBox = React.createClass({
             </div>
         );
     }
-});
+}
 
 module.exports = EditorBox;

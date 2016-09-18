@@ -31,7 +31,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 
 app.get('/', (req, res, next) => {
-    // res.send('hello!');
     res.render('index');
 });
 
