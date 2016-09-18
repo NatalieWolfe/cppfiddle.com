@@ -15,6 +15,7 @@ var logger = require('./lib/logger').child({component: 'main'});
 
 const PORT = process.env.PORT || 8080;
 
+
 var app = express();
 var server = http.createServer(app);
 app.set('views', path.resolve(__dirname, './assets/views'));
@@ -27,7 +28,6 @@ app.use((req, res, next) => {
 
 app.use('/assets', express.static(path.resolve(__dirname, './static')));
 app.use(bodyParser.urlencoded({extended: true}));
-
 
 app.get('/', (req, res, next) => {
     res.render('index');
@@ -69,4 +69,3 @@ server.on('close', () => {
     logger.info('Server closed.');
     // newrelic.shutdown()
 });
-
