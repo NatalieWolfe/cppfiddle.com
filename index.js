@@ -12,7 +12,6 @@ var http = require('http');
 var path = require('path');
 
 var logger = require('./lib/logger').child({component: 'main'});
-logger.level('debug');
 
 const PORT = process.env.PORT || 8080;
 
@@ -43,8 +42,8 @@ app.post('/execute', (req, res, next) => {
         .then(
             (output) => res.json({run: output.toString()}),
             (err) => {
-                logger.error({error: err}, 'Failed to execute file.');
-                res.status(400).json({compile: err});
+                logger.debug({error: err}, 'Failed to execute code.');
+                res.status(400).json({compile: 'Failed to execute code.'});
             }
         );
 });

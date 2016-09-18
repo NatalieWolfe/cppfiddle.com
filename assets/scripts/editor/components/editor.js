@@ -38,10 +38,11 @@ var execute = debounce(CHANGE_DEBOUNCE_MS, (code, cb) => {
             });
         },
         error: (err) => {
+            var data = err.responseJSON || {};
             cb(null, {
                 code: code,
-                runResults: '',
-                compileResults: err
+                runResults: data.run || '',
+                compileResults: data.compile || ''
             });
         }
     });
