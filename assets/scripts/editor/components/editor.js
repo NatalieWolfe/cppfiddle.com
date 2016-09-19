@@ -2,9 +2,9 @@
 
 var $ = require('jquery');
 var debounce = require('throttle-debounce/debounce');
-var Promise = require('bluebird');
 var React = require('react');
 var ReactAce = require('react-ace').default;
+var SplitPane = require('react-split-pane');
 
 require('brace/mode/c_cpp');
 require('brace/theme/ambiance');
@@ -57,9 +57,8 @@ class ResultsBox extends React.Component {
     render() {
         return (
             <div className="resultsBox">
-                <div>{this.props.compileResults}</div>
-                <hr />
-                <div>{this.props.runResults}</div>
+                <div className="tag">{this.props.name}</div>
+                {this.props.children}
             </div>
         );
     }
@@ -81,9 +80,10 @@ class EditorBox extends React.Component {
     }
 
     render() {
+        var windowWidth = $(window).width();
         return (
-            <div className="editorBox panelist">
-                <div className="panel-75">
+            <div className="editorBox">
+                <SplitPane split="vertical" defaultSize={windowWidth / 2}>
                     <ReactAce
                         mode="c_cpp"
                         theme="ambiance"
@@ -93,10 +93,12 @@ class EditorBox extends React.Component {
                         onChange={(code) => this.onEditorChange(code)}
                         value={this.state.code}
                     />
-                </div>
-                <div className="panel-25">
-                    <ResultsBox runResults={this.state.runResults} compileResults={this.state.compileResults} />
-                </div>
+                    <SplitPane split="horizontal" defaultSize={200}>
+                        <ResultsBox name="gcc output">{this.state.compileResults}</ResultsBox>
+                        <ResultsBox name="results">{this.state.runResults}</ResultsBox>
+                    </SplitPane>
+                </SplitPane>
+                <div style={{clear: "both"}} />
             </div>
         );
     }
