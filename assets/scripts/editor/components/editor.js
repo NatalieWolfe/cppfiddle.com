@@ -23,26 +23,31 @@ const DEFAULT_TEXT = [
 ].join('\n');
 
 
+function extractResults(res) {
+    return res ? res.stdout || res.stderr : '';
+}
+
 var execute = debounce(CHANGE_DEBOUNCE_MS, (code, cb) => {
     $.ajax({
         method: 'post',
-        url: '/execute',
+        url: 'http://localhost:8181/execute',
         dataType: 'json',
         cache: false,
         data: {code: code},
         success: (data) => {
+            console.log('Compilation results:', data);
             cb(null, {
                 code: code,
-                runResults: data.run || '',
-                compileResults: data.compile || ''
+                runResults: extractResults(data.run),
+                compileResults: extractResults(data.compile)
             });
         },
         error: (err) => {
             var data = err.responseJSON || {};
             cb(null, {
                 code: code,
-                runResults: data.run || '',
-                compileResults: data.compile || ''
+                runResults: extractResults(data.run),
+                compileResults: extractResults(data.compile)
             });
         }
     });
