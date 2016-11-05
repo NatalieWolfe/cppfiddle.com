@@ -2,13 +2,9 @@
 
 // var newrelic = require('newrelic');
 
-var Promise = require('bluebird');
-
 var bodyParser = require('body-parser');
 var config = require('config');
-var cp = Promise.promisifyAll(require('child_process'));
 var express = require('express');
-var fs = Promise.promisifyAll(require('fs'));
 var http = require('http');
 var path = require('path');
 
@@ -32,21 +28,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/', (req, res, next) => {
     res.render('index');
-});
-
-app.post('/execute', (req, res, next) => {
-    logger.debug({code: req.body.code}, 'Executing code.');
-
-    fs.writeFileAsync('test.cpp', req.body.code)
-        .then(() => cp.execAsync('g++ test.cpp'))
-        .then(() => cp.execAsync('./a.out'))
-        .then(
-            (output) => res.json({run: output.toString()}),
-            (err) => {
-                logger.debug({error: err}, 'Failed to execute code.');
-                res.status(400).json({compile: 'Failed to execute code.'});
-            }
-        );
 });
 
 var interuptCount = 0;
