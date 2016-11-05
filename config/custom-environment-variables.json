@@ -1,0 +1,8 @@
+{
+    "server": {
+        "port": "PORT"
+    },
+    "logging": {
+        "level": "FIDDLE_LOGGING_LEVEL"
+    }
+}

@@ -5,6 +5,7 @@
 var Promise = require('bluebird');
 
 var bodyParser = require('body-parser');
+var config = require('config');
 var cp = Promise.promisifyAll(require('child_process'));
 var express = require('express');
 var fs = Promise.promisifyAll(require('fs'));
@@ -13,7 +14,7 @@ var path = require('path');
 
 var logger = require('./lib/logger').child({component: 'main'});
 
-const PORT = process.env.PORT || 8080;
+const PORT = config.get('server.port');
 
 
 var app = express();
@@ -65,6 +66,7 @@ process.on('SIGINT', () => {
 server.listen(PORT, () => {
     logger.info('Server listening on %d', PORT);
 });
+
 server.on('close', () => {
     logger.info('Server closed.');
     // newrelic.shutdown()
