@@ -26,7 +26,7 @@
     "babelify": "^7.3.0",
     "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
-    "brace": "^0.8.0",
+    "brace": "^0.9.0",
     "browserify": "^13.1.0",
     "bunyan": "^1.8.1",
     "express": "^4.14.0",
@@ -40,7 +40,7 @@
     "pug": "^2.0.0-beta6",
     "qs": "^6.2.1",
     "react": "^15.3.1",
-    "react-ace": "^3.5.0",
+    "react-ace": "^4.0.0",
     "react-dom": "^15.3.1",
     "throttle-debounce": "^1.0.1"
   },
@@ -48,6 +48,6 @@
     "coveralls": "^2.11.13",
     "eslint": "^3.5.0",
     "jscoverage": "^0.6.0",
-    "tap": "^7.1.2"
+    "tap": "^8.0.0"
   }
 }
