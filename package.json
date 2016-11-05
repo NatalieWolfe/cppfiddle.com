@@ -43,6 +43,7 @@
     "react": "^15.3.1",
     "react-ace": "^4.0.0",
     "react-dom": "^15.3.1",
+    "react-split-pane": "^0.1.44",
     "socket.io": "^1.5.1",
     "socket.io-client": "^1.5.1",
     "throttle-debounce": "^1.0.1"

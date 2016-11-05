@@ -1,9 +1,11 @@
 'use strict';
 
+var $ = require('jquery');
 var debounce = require('throttle-debounce/debounce');
 var React = require('react');
 var ReactAce = require('react-ace').default;
 var socket = require('socket.io-client')('http://localhost:8181');
+var SplitPane = require('react-split-pane');
 
 require('brace/mode/c_cpp');
 require('brace/theme/ambiance');
@@ -72,9 +74,10 @@ class EditorBox extends React.Component {
     }
 
     render() {
+        var windowWidth = $(window).width();
         return (
-            <div className="editorBox panelist">
-                <div className="panel-75">
+            <div className="editorBox">
+                <SplitPane split="horizontal" defaultSize={windowWidth / 2}>
                     <ReactAce
                         mode="c_cpp"
                         theme="ambiance"
@@ -85,7 +88,8 @@ class EditorBox extends React.Component {
                         value={this.state.code}
                     />
                     <ResultsBox output={this.state.output} />
-                </div>
+                </SplitPane>
+                <div style={{clear: "both"}} />
             </div>
         );
     }
